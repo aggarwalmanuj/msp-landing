@@ -1,0 +1,396 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   MSP AI Opportunity Score - design tokens.
+
+   Brief (handoff doc): navy foundation, teal + cyan accents, large type, a
+   simple ocean-depth motif. Tuned from the AI Merge "Marine" family so the
+   page sits in the same ecosystem as the funnel it hands off to, but a
+   shade deeper and bluer - this audience runs infrastructure, not therapy.
+
+   Teal (--signal) is THE interactive colour: every CTA, focus ring, active
+   state. Cyan (--depth-*) only ever appears inside illustration, so the eye
+   never confuses decoration with something clickable.
+
+   Contrast against --bg (#06141f):
+     --ink  #eef6f8  17.1:1   headings
+     --fg   #b3c9d3  10.6:1   body
+     --faint #8aa4b1  6.9:1   captions, meta
+     --signal #4fd1c5 10.4:1  accents / CTA fill (navy text on it: 10.4:1)
+   ========================================================================== */
+
+:root {
+  --bg: #06141f;
+  --surface: #0a1d2b;
+  --surface-2: #0f2738;
+  --line: rgb(148 196 214 / 0.12);
+  --line-strong: rgb(148 196 214 / 0.22);
+
+  --ink: #eef6f8;
+  --fg: #b3c9d3;
+  --faint: #8aa4b1;
+
+  --signal: #4fd1c5;
+  --signal-ink: #06141f;
+  --signal-glow: 79 209 197;
+
+  --depth-1: #6fd8ee;
+  --depth-2: #2b9fbf;
+  --depth-3: #15607e;
+
+  /* 4px grid. Sections use the larger steps only. */
+  --space-section: clamp(5rem, 3.5rem + 6vw, 9.5rem);
+
+  --radius-sm: 0.5rem;
+  --radius: 0.875rem;
+  --radius-lg: 1.25rem;
+
+  /* Layered shadows imply one light source from above. */
+  --shadow-1: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 1px 2px rgb(0 6 12 / 0.4);
+  --shadow-2: 0 1px 0 rgb(255 255 255 / 0.05) inset, 0 18px 40px -24px rgb(0 6 12 / 0.7),
+    0 2px 6px rgb(0 6 12 / 0.35);
+  --shadow-cta: 0 10px 30px -12px rgb(var(--signal-glow) / 0.55), 0 1px 0 rgb(255 255 255 / 0.3) inset;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  --dur-fast: 160ms;
+  --dur: 240ms;
+  --dur-slow: 700ms;
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-fg: var(--fg);
+  --color-faint: var(--faint);
+  --color-signal: var(--signal);
+  --color-signal-ink: var(--signal-ink);
+  --color-depth-1: var(--depth-1);
+  --color-depth-2: var(--depth-2);
+  --color-depth-3: var(--depth-3);
+
+  --font-sans: var(--font-gsf), ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius-lg);
+}
+
+/* ---------- base ---------- */
+
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  /* Light text on dark reads thinner than the same weight on white (halation),
+     so body sits a touch above 400. The family is variable, so this is exact. */
+  font-weight: 420;
+  line-height: 1.6;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgb(var(--signal-glow) / 0.28);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Anchored sections clear the sticky header. */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* ---------- type scale ----------
+   One family (Google Sans Flex), Apple/Google discipline: confident weight,
+   tight negative tracking that scales with size, optical sizing on so
+   display sizes get the display cut. Emphasis is TONAL (a muted second
+   clause at the same weight), never a thin italic. */
+
+.t-display {
+  font-weight: 600;
+  font-size: clamp(2.375rem, 1.5rem + 3.6vw, 4.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.032em;
+  color: var(--ink);
+  font-optical-sizing: auto;
+  text-wrap: balance;
+}
+
+.t-section {
+  font-weight: 600;
+  font-size: clamp(2rem, 1.4rem + 2.6vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.028em;
+  color: var(--ink);
+  font-optical-sizing: auto;
+  text-wrap: balance;
+}
+
+.t-title {
+  font-weight: 600;
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.t-lead {
+  font-size: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+  font-weight: 420;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  text-wrap: pretty;
+}
+
+.t-eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--signal);
+}
+
+/* Second clause of a headline: same weight, quieter tone. 6.9:1 on --bg. */
+.t-em {
+  color: var(--faint);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  border-radius: 999px;
+  padding: 0.75rem 1.375rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  transition:
+    transform var(--dur) var(--ease-out),
+    background-color var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out),
+    color var(--dur) var(--ease-out);
+}
+
+.btn svg {
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.btn:hover svg {
+  transform: translateX(3px);
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.985);
+  transition-duration: 80ms;
+}
+
+.btn-lg {
+  /* Long CTA labels wrap on narrow phones instead of widening the layout. */
+  white-space: normal;
+  text-align: center;
+  text-wrap: balance;
+  min-height: 3.5rem;
+  padding: 1rem 1.75rem;
+  font-size: 1.0625rem;
+}
+
+.btn-signal {
+  background: var(--signal);
+  color: var(--signal-ink);
+  box-shadow: var(--shadow-cta);
+}
+
+.btn-signal:hover {
+  background: #6fe0d5;
+  box-shadow: 0 14px 36px -12px rgb(var(--signal-glow) / 0.7), 0 1px 0 rgb(255 255 255 / 0.35) inset;
+}
+
+.btn-ghost {
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
+  background: rgb(255 255 255 / 0.02);
+}
+
+.btn-ghost:hover {
+  border-color: rgb(var(--signal-glow) / 0.6);
+  background: rgb(var(--signal-glow) / 0.06);
+}
+
+/* Only the primary/secondary styles exist. The `primary` alias keeps the
+   shared ScorecardCta component working without forking it. */
+.btn-primary {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.btn-primary:hover {
+  background: #ffffff;
+}
+
+/* ---------- surfaces ---------- */
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.025), transparent 40%),
+    var(--surface);
+  box-shadow: var(--shadow-2);
+}
+
+.hairline {
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-strong), transparent);
+}
+
+/* ---------- motion ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--dur-slow) var(--ease-out) var(--reveal-delay, 0ms),
+    transform var(--dur-slow) var(--ease-out) var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 900ms var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.anim-dialog-in {
+  animation: dialog-in var(--dur) var(--ease-out) both;
+}
+
+/* The sounding line's lead weight drops once, then the depth readout pulses
+   slowly. Transform/opacity only. */
+@keyframes sound {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.sound-line {
+  transform-origin: top;
+  animation: sound 1600ms var(--ease-out) 300ms both;
+}
+
+@keyframes ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  80%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.ping {
+  animation: ping 2.8s var(--ease-out) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- a11y ---------- */
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 60;
+  border-radius: var(--radius-sm);
+  background: var(--signal);
+  color: var(--signal-ink);
+  padding: 0.625rem 1rem;
+  font-weight: 600;
+  transition: top var(--dur) var(--ease-out);
+}
+
+.skip-link:focus-visible {
+  top: 1rem;
+}
+
+/* Grain: kills banding in the large navy gradients. 1.4KB inline SVG. */
+.grain::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}

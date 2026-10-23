@@ -1,7 +1,13 @@
+import { KeyRound, Lock, Server, ShieldCheck } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
 
-const THEN = ["Firewalls", "Security", "Access", "Infrastructure"] as const;
+const THEN = [
+  { label: "Firewalls", icon: ShieldCheck },
+  { label: "Security", icon: Lock },
+  { label: "Access", icon: KeyRound },
+  { label: "Infrastructure", icon: Server },
+] as const;
 const NOW = ["Useful", "Secure", "Personalized"] as const;
 
 export function Opportunity() {
@@ -26,12 +32,13 @@ export function Opportunity() {
                 <span className="text-xs uppercase tracking-[0.08em] text-faint">Information, abundant</span>
               </p>
               <ul className="mt-5 flex flex-wrap gap-2">
-                {THEN.map((t) => (
+                {THEN.map(({ label, icon: Icon }) => (
                   <li
-                    key={t}
-                    className="rounded-full border border-line-strong px-3.5 py-1.5 text-sm text-fg"
+                    key={label}
+                    className="inline-flex items-center gap-2 rounded-full border border-line-strong px-3.5 py-1.5 text-sm text-fg"
                   >
-                    {t}
+                    <Icon aria-hidden className="h-3.5 w-3.5 text-depth-1" strokeWidth={1.8} />
+                    {label}
                   </li>
                 ))}
               </ul>

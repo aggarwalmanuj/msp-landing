@@ -2,6 +2,7 @@ import { LandingAnalytics } from "@/components/landing-analytics";
 import { MobileStickyCta } from "@/components/mobile-sticky-cta";
 import { Choice } from "@/components/sections/choice";
 import { Hero } from "@/components/sections/hero";
+import { MspWorld } from "@/components/sections/msp-world";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { Opportunity } from "@/components/sections/opportunity";
 import { FinalCta, Trust } from "@/components/sections/trust";
@@ -17,6 +18,7 @@ export default function Home() {
       <main id="main" className="flex-1">
         <Hero />
         <Opportunity />
+        <MspWorld />
         <Choice />
         <HowItWorks />
         <Trust />

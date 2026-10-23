@@ -15,7 +15,6 @@ export function Hero() {
           fill
           preload
           sizes="100vw"
-          quality={70}
           className="object-cover object-top opacity-90"
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(6_20_31/0.10)_0%,rgb(6_20_31/0.40)_50%,var(--bg)_96%)]" />
